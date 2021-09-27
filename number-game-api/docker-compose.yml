@@ -8,5 +8,7 @@ services:
       - JAR_FILE=target/number-game-api-1.0-SNAPSHOT.jar
     image: number-game-api:latest
     ports:
-    - "9290:9090"   # HTTP
-
+      - "9290:9090"   # HTTP
+    environment:
+      - BANK_API_BASE_URL=http://localhost:9090/bank/api/v1
+      - RANDOMNUMBER_API_BASE_URL=http://localhost:9190/randomnumber/api/v1

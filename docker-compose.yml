@@ -1,0 +1,34 @@
+version: '3'
+services:
+  bank-api:
+    container_name: bank-api
+    build:
+      context: .
+      args:
+        - JAR_FILE=target/bank-api-1.0-SNAPSHOT.jar
+    image: bank-api:latest
+    ports:
+      - "9090:9090"   # HTTP
+
+  random-number-api:
+    container_name: random-number-api
+    build:
+      context: .
+      args:
+      - JAR_FILE=target/random-number-api-1.0-SNAPSHOT.jar
+    image: random-number-api:latest
+    ports:
+    - "9190:9190"   # HTTP
+
+  number-game-api:
+    container_name: number-game-api
+    build:
+      context: .
+      args:
+        - JAR_FILE=target/number-game-api-1.0-SNAPSHOT.jar
+    image: number-game-api:latest
+    ports:
+      - "9290:9290"   # HTTP
+    environment:
+      - BANK_API_BASE_URL=http://localhost:9090/bank/api/v1
+      - RANDOMNUMBER_API_BASE_URL=http://localhost:9190/randomnumber/api/v1
