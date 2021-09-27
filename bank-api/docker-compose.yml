@@ -1,0 +1,12 @@
+version: '3'
+services:
+  bank-api:
+    container_name: bank-api
+    build:
+      context: .
+      args:
+      - JAR_FILE=target/bank-api-0.0.1-SNAPSHOT.jar
+    image: bank-api:latest
+    ports:
+    - "9190:9090"   # HTTP
+

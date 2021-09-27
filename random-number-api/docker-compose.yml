@@ -1,0 +1,12 @@
+version: '3'
+services:
+  random-number-api:
+    container_name: random-number-api
+    build:
+      context: .
+      args:
+      - JAR_FILE=target/random-number-api-0.0.1-SNAPSHOT.jar
+    image: random-number-api:latest
+    ports:
+    - "9390:9090"   # HTTP
+
