@@ -32,3 +32,6 @@ Has following public end-points
 * [GET] /numbergame/api/v1/register - register a new user
 * [GET] /numbergame/api/v1/user - checks whether the user is already registered.
 * [GET] /numbergame/api/v1/play - play the game by entering any number between 0 and 10.
+
+## Number Game UI
+Entry point to the application. This is the UI module and will provide interfaces for registering a user, login the user and playing the game.
