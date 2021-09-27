@@ -42,26 +42,45 @@ public class NumberGameServiceImpl implements NumberGameService {
   }
 
   @Override
-  public AccountDto registerUser(String name) {
+  public AccountDto registerUser(AccountDto accountDto) {
 
     HttpHeaders headers = this.getHeaders();
-    HttpEntity<HttpHeaders> requestEntity = new HttpEntity<>(headers);
+    HttpEntity<AccountDto> requestEntity = new HttpEntity<>(accountDto, headers);
 
     //adding the query params to the URL
     UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(
-        this.bankApiBaseUrl + "/create")
-        .queryParam("name", name);
+        this.bankApiBaseUrl + "/create");
 
     ResponseEntity<AccountDto> responseEntity =
         restTemplate.exchange(
             uriBuilder.toUriString(), HttpMethod.POST, requestEntity, AccountDto.class);
-
 
     if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
       return Objects.requireNonNull(responseEntity.getBody());
     } else {
       throw new InternalServerErrorException(
           "Unable to register user. Error code: " + responseEntity.getStatusCode());
+    }
+  }
+
+  public AccountDto checkUser(String username) {
+    HttpHeaders headers = this.getHeaders();
+    HttpEntity<HttpHeaders> requestEntity = new HttpEntity<>(headers);
+
+    //adding the path params to the URL
+    UriComponentsBuilder findUserUriBuilder = UriComponentsBuilder.fromHttpUrl(
+        this.bankApiBaseUrl + "/user")
+        .queryParam("username", username);
+
+    ResponseEntity<AccountDto> responseEntity =
+        restTemplate.exchange(
+            findUserUriBuilder.toUriString(), HttpMethod.GET, requestEntity, AccountDto.class);
+
+    if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+      return Objects.requireNonNull(responseEntity.getBody());
+    } else {
+      throw new InternalServerErrorException(
+          "Unable to find user. Description: " + responseEntity.getBody());
     }
   }
 

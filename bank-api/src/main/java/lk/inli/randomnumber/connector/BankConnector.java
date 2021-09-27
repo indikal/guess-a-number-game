@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,13 +43,26 @@ public class BankConnector {
     return modelMapper.map(account, AccountDto.class);
   }
 
-  @RequestMapping(method = RequestMethod.POST, value = "/create")
-  public AccountDto createUserAccount(@RequestParam String name) {
-    if (null == name || name.isEmpty()) {
-      throw new InvalidRequestException("Account name is required");
+  @RequestMapping(method = RequestMethod.GET, value = "/user")
+  public AccountDto findUserByUsername(@RequestParam String username) {
+    if (null == username || username.isEmpty()) {
+      throw new InvalidRequestException("Username is required");
     }
 
-    Account account = this.bankService.createNewAccount(name);
+    Account account = this.bankService.getAccountByUsername(username);
+
+    return modelMapper.map(account, AccountDto.class);
+  }
+
+  @RequestMapping(method = RequestMethod.POST, value = "/create")
+  public AccountDto createUserAccount(@RequestBody AccountDto accountDto) {
+    if (null == accountDto || accountDto.getUserName().isEmpty() || accountDto.getFirstName()
+        .isEmpty() || accountDto.getLastName().isEmpty()) {
+      throw new InvalidRequestException("Mandatory account details are missing");
+    }
+
+    Account account = modelMapper.map(accountDto, Account.class);
+    account = this.bankService.createNewAccount(account);
 
     return modelMapper.map(account, AccountDto.class);
   }

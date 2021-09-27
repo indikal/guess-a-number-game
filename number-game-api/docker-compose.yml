@@ -1,12 +1,12 @@
 version: '3'
 services:
-  signup-api:
-    container_name: signup-api
+  number-game-api:
+    container_name: number-game-api
     build:
       context: .
       args:
-      - JAR_FILE=target/signup-api-0.0.1-SNAPSHOT.jar
-    image: signup-api:latest
+      - JAR_FILE=target/number-game-api-1.0-SNAPSHOT.jar
+    image: number-game-api:latest
     ports:
     - "9290:9090"   # HTTP
 

@@ -2,6 +2,8 @@ package lk.inli.randomnumber.service.impl;
 
 import lk.inli.randomnumber.domain.Account;
 import lk.inli.randomnumber.error.FeatureNotSupportedException;
+import lk.inli.randomnumber.error.InvalidRequestException;
+import lk.inli.randomnumber.error.ResourceNotFoundException;
 import lk.inli.randomnumber.repository.AccountRepository;
 import lk.inli.randomnumber.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,13 @@ public class BankServiceImpl implements BankService {
   }
 
   @Override
-  public Account createNewAccount(String name) {
-    return this.accountRepository.create(name);
+  public Account getAccountByUsername(String username) {
+    return this.accountRepository.getByUsername(username);
+  }
+
+  @Override
+  public Account createNewAccount(Account account) {
+    return this.accountRepository.create(account);
   }
 
   @Override

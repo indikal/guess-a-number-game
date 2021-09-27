@@ -7,7 +7,9 @@ public interface BankService {
 
   Account getAccount(String id);
 
-  Account createNewAccount(String name);
+  Account getAccountByUsername(String username);
+
+  Account createNewAccount(Account account);
 
   Account creditGivenAccount(String id, int amount);
 

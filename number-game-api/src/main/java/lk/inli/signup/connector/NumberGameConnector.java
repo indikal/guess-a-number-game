@@ -31,11 +31,21 @@ public class NumberGameConnector {
   }
 
   @RequestMapping(method = RequestMethod.POST, value = "/register")
-  public AccountDto registerUser(@RequestParam String name) {
-    if (null == name || name.isEmpty()) {
-      throw new InvalidRequestException("Account name is required");
+  public AccountDto registerUser(@RequestBody AccountDto accountDto) {
+    if (null == accountDto || accountDto.getUserName().isEmpty() || accountDto.getFirstName()
+        .isEmpty() || accountDto.getLastName().isEmpty()) {
+      throw new InvalidRequestException("Account details are required");
     }
 
-    return this.numberGameService.registerUser(name);
+    return this.numberGameService.registerUser(accountDto);
+  }
+
+  @RequestMapping(method = RequestMethod.GET, value = "/user")
+  public AccountDto checkUser(@RequestParam String username) {
+    if (null == username || username.isEmpty()) {
+      throw new InvalidRequestException("Account username is required");
+    }
+
+    return this.numberGameService.checkUser(username);
   }
 }

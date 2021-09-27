@@ -4,9 +4,11 @@ import lk.inli.randomnumber.domain.Account;
 
 public interface AccountRepository {
 
-  Account create(String name);
+  Account create(Account account);
 
   Account getById(String id);
+
+  Account getByUsername(String username);
 
   Account credit(String id, int amount);
 

@@ -1,6 +1,7 @@
 package lk.inli.randomnumber.repository.impl;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import lk.inli.randomnumber.domain.Account;
 import lk.inli.randomnumber.error.InvalidRequestException;
@@ -10,11 +11,24 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AccountRepositoryImpl implements AccountRepository {
-  private static Map<String, Account> accounts = new ConcurrentHashMap<>();
+  private static final Map<String, Account> accounts = new ConcurrentHashMap<>();
 
   @Override
-  public Account create(String name) {
-    Account account = new Account(name);
+  public Account create(Account newAccount) {
+    try {
+      Account existingAccount = this.getByUsername(newAccount.getUserName());
+
+      if (null != existingAccount) {
+        throw new InvalidRequestException("Username already exist");
+      }
+    } catch (ResourceNotFoundException ignore) {
+      //no user exist so we can create the user safely
+    }
+
+    Account account = new Account(newAccount.getUserName());
+    account.setFirstName(newAccount.getFirstName());
+    account.setLastName(newAccount.getLastName());
+
     accounts.put(account.getId(), account);
 
     return account;
@@ -25,9 +39,21 @@ public class AccountRepositoryImpl implements AccountRepository {
     Account account = accounts.get(id);
 
     if (null == account) {
-      throw new ResourceNotFoundException("No account found for id " + id);
+      throw new ResourceNotFoundException("No account found for id: " + id);
     }
     return account;
+  }
+
+  @Override
+  public Account getByUsername(String username) {
+    Optional<Account> account = accounts.values().stream()
+        .filter(acct -> acct.getUserName().equalsIgnoreCase(username))
+        .findFirst();
+
+    if (account.isEmpty()) {
+      throw new ResourceNotFoundException("No account found for username: " + username);
+    }
+    return account.get();
   }
 
   @Override

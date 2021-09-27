@@ -6,13 +6,13 @@
     <groupId>lk.inli</groupId>
     <artifactId>guess-a-number-game</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <relativePath/> <!-- lookup parent from repository -->
+    <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>lk.inli</groupId>
 
   <artifactId>random-number-api</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0-SNAPSHOT</version>
   <name>random-number-api</name>
   <description>Random number generation API</description>
 
@@ -36,5 +36,14 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
