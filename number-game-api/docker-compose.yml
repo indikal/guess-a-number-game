@@ -10,5 +10,5 @@ services:
     ports:
       - "9290:9090"   # HTTP
     environment:
-      - BANK_API_BASE_URL=http://localhost:9090/bank/api/v1
-      - RANDOMNUMBER_API_BASE_URL=http://localhost:9190/randomnumber/api/v1
+      - BANK_API_BASE_URL=http://bank-api:9090/bank/api/v1
+      - RANDOMNUMBER_API_BASE_URL=http://random-number-api:9190/randomnumber/api/v1
